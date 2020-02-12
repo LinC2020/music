@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".wechat_fragment.MusicFragment">
+    tools:context=".wechat_fragment.DiscoverFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:textSize="40dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="音乐播放页" />
+        android:text="动态页" />
 
 </FrameLayout>
