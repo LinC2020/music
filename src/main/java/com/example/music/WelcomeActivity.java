@@ -22,6 +22,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private LinearLayout ll;
     private static final String TAG = "WelcomeActivity";
     private List<Fragment> list;
+    private WelcomeFragment fragmenth;
 
     private List<ImageView> listI;
 
@@ -35,7 +36,8 @@ public class WelcomeActivity extends AppCompatActivity {
         list=new ArrayList<>();
         list.add(new OneFragment());
         list.add(new TwoFragment());
-        list.add(new WelcomeFragment());
+        fragmenth=new WelcomeFragment();
+        list.add(fragmenth);
 
         WelcomeAdapter welcomeAdapter = new WelcomeAdapter(getSupportFragmentManager(), list);
         vp.setAdapter(welcomeAdapter);
@@ -61,6 +63,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                if (position == list.size() - 1) {
+                    fragmenth.handler.sendEmptyMessage(1);
+
+                }
                 for (int i = 0; i < listI.size(); i++) {
                     if (i == position) {
                         listI.get(i).setImageResource(R.drawable.zz);
