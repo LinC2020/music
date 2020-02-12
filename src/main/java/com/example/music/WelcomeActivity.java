@@ -54,8 +54,8 @@ public class WelcomeActivity extends AppCompatActivity {
         SharedPreferences welcome = getSharedPreferences("welcome", MODE_PRIVATE);
         boolean welcome1 = welcome.getBoolean("welcome", false);//直接读取
         if (welcome1) { //判断是否是第一次运行
-//            Intent intent = new Intent(this, MainActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
 
         vp = (ViewPager) findViewById(R.id.vp);
