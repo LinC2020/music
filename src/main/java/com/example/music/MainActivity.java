@@ -6,10 +6,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.music.wechat_fragment.DiscoverFragment;
 import com.example.music.wechat_fragment.MeFragment;
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        list = new ArrayList<>();
         vp = (ViewPager) findViewById(R.id.vp);
         rg = (RadioGroup) findViewById(R.id.rg);
         rb1 = (RadioButton) findViewById(R.id.rb1);
@@ -41,25 +44,8 @@ public class MainActivity extends AppCompatActivity {
         rb3 = (RadioButton) findViewById(R.id.rb3);
         rb4 = (RadioButton) findViewById(R.id.rb4);
 
-        list = new ArrayList<>();
 
-        list.add(new MusicFragment());
-        list.add(new MessageFragment());
-        list.add(new DiscoverFragment());
-        list.add(new MeFragment());
-
-        vp.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
-            @NonNull
-            @Override
-            public Fragment getItem(int position) {
-                return list.get(position);
-            }
-
-            @Override
-            public int getCount() {
-                return list.size();
-            }
-        });
+        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
 
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -88,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
-
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
@@ -101,11 +86,36 @@ public class MainActivity extends AppCompatActivity {
                     rb4.setChecked(true);
                 }
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            list.add(new MusicFragment());
+            list.add(new MessageFragment());
+            list.add(new DiscoverFragment());
+            list.add(new MeFragment());
+
+            vp.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+                @NonNull
+                @Override
+                public Fragment getItem(int position) {
+                    return list.get(position);
+                }
+
+                @Override
+                public int getCount() {
+                    return list.size();
+                }
+            });
+        } else {
+            finish();
+        }
     }
 }
