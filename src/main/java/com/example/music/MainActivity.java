@@ -7,13 +7,18 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.app.PendingIntent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.music.broadcast.MyReceiver;
 import com.example.music.wechat_fragment.DiscoverFragment;
 import com.example.music.wechat_fragment.MeFragment;
 import com.example.music.wechat_fragment.MessageFragment;
@@ -31,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton rb4;
     private static final String TAG = "MainActivity";
     private List<Fragment> list;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,26 +48,35 @@ public class MainActivity extends AppCompatActivity {
         rb3 = (RadioButton) findViewById(R.id.rb3);
         rb4 = (RadioButton) findViewById(R.id.rb4);
 
+        //动态创建广播
+        MyReceiver myReceiver = new MyReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.pause");
+        intentFilter.addAction("com.restart");
+        intentFilter.addAction("com.last");
+        intentFilter.addAction("com.next");
+        registerReceiver(myReceiver, intentFilter);
 
-        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
+        //动态设置权限
+        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
 
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb1:
-                        vp.setCurrentItem(0,false);
+                        vp.setCurrentItem(0, false);
                         break;
                     case R.id.rb2:
-                        vp.setCurrentItem(1,false);
+                        vp.setCurrentItem(1, false);
                         break;
 
                     case R.id.rb3:
-                        vp.setCurrentItem(2,false);
+                        vp.setCurrentItem(2, false);
                         break;
 
                     case R.id.rb4:
-                        vp.setCurrentItem(3,false);
+                        vp.setCurrentItem(3, false);
                         break;
                 }
             }
@@ -74,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
+
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
@@ -86,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                     rb4.setChecked(true);
                 }
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
 
@@ -93,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    //权限回调的方法
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

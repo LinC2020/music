@@ -12,12 +12,18 @@ import com.example.music.species.Music;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 工具类
+ */
 public class MusicUtils {
     private static final String TAG = "MusicUtils";
 
+    //获取SD卡中的音乐
     public static List<Music> getMusicList(Context context){
         List<Music> list=new ArrayList<>();
+        //获取内容提供者
         ContentResolver contentResolver = context.getContentResolver();
+        //通过内容提供者查询
         Cursor cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
         if (cursor != null) {
             Log.i(TAG, "getMusicList: "+"不为空");

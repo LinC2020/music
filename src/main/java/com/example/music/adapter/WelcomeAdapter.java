@@ -7,6 +7,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
+/**
+ * 引导页数据源
+ */
 public class WelcomeAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> list;

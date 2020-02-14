@@ -13,6 +13,9 @@ import com.example.music.util.MusicUtils;
 
 import java.util.List;
 
+/**
+ * ListView 数据源
+ */
 public class MyAdapter extends BaseAdapter {
 
     private List<Music> list;

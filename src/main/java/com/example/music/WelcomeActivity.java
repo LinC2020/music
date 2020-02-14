@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * 引导页相关功能
+ */
 public class WelcomeActivity extends AppCompatActivity {
     private ViewPager vp;
     private LinearLayout ll;

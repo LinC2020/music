@@ -1,5 +1,8 @@
 package com.example.music.species;
 
+/**
+ * 音乐类
+ */
 public class Music {
     private String title; //歌名
     private String artist;//歌手
